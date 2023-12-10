@@ -14,7 +14,7 @@ app.use(cors({
     origin: [
         "http://localhost:3000",
         "http://localhost:8080",
-        "https://phoil-ly-frontend-react-app.onrender.com/"
+        "https://phoil-ly-frontend-react-app.onrender.com"
     ]
 }));
 app.use("/api", router);
