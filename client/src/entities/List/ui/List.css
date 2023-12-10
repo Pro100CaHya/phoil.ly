@@ -1,0 +1,36 @@
+.list {
+    list-style: none;
+    width: 100%;
+    max-width: 420px;
+    margin: 15px auto 0 auto;
+    padding: 0;
+    height: 100%;
+    flex: 1 0 auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 280px);
+    min-height: 100px;
+}
+
+.list__item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(155, 255, 255);
+    border-radius: 5px;
+    border-color: rgb(11, 70, 70);
+    border-width: 2px;
+    border-style: solid;
+    color: rgb(12, 42, 42);
+    font-size: 1.1rem;
+}
+
+.list__item-email {
+    margin: 0;
+}
+
+.list__item-number {
+    margin: 10px 0 0;
+}
+
+.list::-webkit-scrollbar {
+    width: 5px;
+}
