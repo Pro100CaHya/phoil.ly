@@ -10,11 +10,13 @@ const PORT = process.env.PORT || 8000;
 
 const app: Application = express();
 
+app.use(cors({
+    origin: [
+        "http://localhost:3000"
+    ]
+}));
 app.use("/api", router);
 app.use(express.json());
-app.use(cors({
-    origin: "*"
-}))
 
 const start = async () => {
     try {
