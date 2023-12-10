@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
 import { router } from "../routes/index"; 
 
@@ -11,6 +12,9 @@ const app: Application = express();
 
 app.use("/api", router);
 app.use(express.json());
+app.use(cors({
+    origin: "*"
+}))
 
 const start = async () => {
     try {
