@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 
 import { SearchUsers } from "@/features/SearchUsers";
 import { ShowUsers } from "@/features/ShowUsers";
@@ -9,33 +9,50 @@ interface UsersFormProps {
     className?: string;
 }
 
-export const UsersForm: FC<UsersFormProps> = (props) => {  
-    const [ users, setUsers ] = useState<User[]>([]);
-    const [ filter, setFilter ] = useState<{ email: string; number: string }>({
+export const UsersForm: FC<UsersFormProps> = (props) => {
+    const [users, setUsers] = useState<User[]>([]);
+    const [isLoad, setIsLoad] = useState<boolean>(true);
+    const [filter, setFilter] = useState<{ email: string; number: string }>({
         email: "",
         number: ""
-    })
+    });
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            const data = await getUsers({
-                ...filter
-            });
+        const abortController = new AbortController();
 
-            setUsers(data);
+        const fetchData = async () => {
+            try {
+                setIsLoad(true);
+                const response = await getUsers(
+                    { ...filter },
+                    abortController.signal
+                );
+                
+                setUsers(response);
+                setIsLoad(false);
+            } catch (error) {
+                if (!abortController.signal.aborted) {
+                    console.error("Error");
+                    setIsLoad(false);
+                }
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            abortController.abort();
         }
-
-        fetchUsers();
-    }, []);
+    }, [filter]);
 
     return (
         <>
             <SearchUsers
-                filter={filter}
                 setFilter={setFilter}
             />
             <ShowUsers
                 users={users}
+                isLoad={isLoad}
             />
         </>
     );

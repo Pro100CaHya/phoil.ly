@@ -18,7 +18,7 @@ export const List: FC<UsersListProps> = (props) => {
             <ul className={classNames("list", {}, [])}>
                 {
                     users.map((user: User) => (
-                        <li key={user.number} className="list__item">
+                        <li key={user.id} className="list__item">
                             <p className="list__item-email">
                                 email: {user.email}
                             </p>

@@ -9,9 +9,11 @@ export type getUsersParams = {
 }
 
 export const getUsers = (
-    params: getUsersParams
+    params: getUsersParams,
+    signal: AbortSignal
 ): Promise<User[]> => (
     apiInstance.get(BASE_URL, {
-        params
+        params,
+        signal 
     })
 );

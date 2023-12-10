@@ -7,7 +7,7 @@
     height: 100%;
     flex: 1 0 auto;
     overflow-y: auto;
-    max-height: calc(100vh - 280px);
+    max-height: calc(100vh - 350px);
     min-height: 100px;
 }
 
@@ -33,4 +33,10 @@
 
 .list::-webkit-scrollbar {
     width: 5px;
+}
+
+.list-wrapper {
+    flex: 1 0 auto;
+    max-height: calc(100vh - 280px);
+    min-height: 100px;
 }

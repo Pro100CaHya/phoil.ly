@@ -2,7 +2,7 @@ import "./Form.css";
 
 import { Button } from "@/shared/ui/Button/Button";
 import { Input } from "@/shared/ui/Input/Input";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface IFilter {
     email: string,
@@ -11,15 +11,18 @@ interface IFilter {
 
 interface FormProps {
     className?: string;
-    filter: IFilter;
     setFilter: (arg: IFilter) => void;
 }
 
 export const Form: FC<FormProps> = (props) => {
     const {
-        filter,
         setFilter
-    } = props
+    } = props;
+
+    const [ inputData, setInputData ] = useState<{ email: string; number: string }>({
+        email: "",
+        number: ""
+    });
 
     return (
         <div className="form">
@@ -30,7 +33,7 @@ export const Form: FC<FormProps> = (props) => {
                 <Input
                     type="email"
                     className="form__input-email"
-                    onChange={(e) => setFilter({ ...filter, email: e.target.value })}
+                    onChange={(e) => setInputData({ ...inputData, email: e.target.value })}
                     placeholder="example@gmail.com"
                 />
                 <p className="form__input-message-email">
@@ -39,7 +42,7 @@ export const Form: FC<FormProps> = (props) => {
                 <Input
                     className="form__input-number"
                     placeholder="11-22-33"
-                    onChange={(e) => setFilter({ ...filter, number: e.target.value })}
+                    onChange={(e) => setInputData({ ...inputData, number: e.target.value })}
                     type="number"
                 />
                 <p className="form__input-message-number">
@@ -48,6 +51,7 @@ export const Form: FC<FormProps> = (props) => {
             </div>
             <Button
                 className={"form__button"}
+                onClick={() => setFilter({ ...inputData })}
             >
                 Поиск
             </Button>
