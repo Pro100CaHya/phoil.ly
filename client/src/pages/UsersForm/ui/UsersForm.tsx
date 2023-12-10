@@ -26,7 +26,7 @@ export const UsersForm: FC<UsersFormProps> = (props) => {
         }
 
         fetchUsers();
-    }, [users]);
+    }, []);
 
     return (
         <>
