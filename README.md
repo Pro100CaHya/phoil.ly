@@ -90,7 +90,7 @@ http://localhost:8000/api
 
 ```cmd
 cd server
-npm run start
+npm run dev
 ```
 
 4. Через отдельный терминал запустить frontend
