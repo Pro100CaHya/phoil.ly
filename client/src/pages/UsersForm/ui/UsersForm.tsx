@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC } from "react";
 
 import { SearchUsers } from "@/features/SearchUsers";
 import { ShowUsers } from "@/features/ShowUsers";
@@ -11,11 +11,29 @@ interface UsersFormProps {
 
 export const UsersForm: FC<UsersFormProps> = (props) => {
     const [users, setUsers] = useState<User[]>([]);
+    const [isEmailNull, setIsEmailNull] = useState<boolean>(false);
     const [isLoad, setIsLoad] = useState<boolean>(true);
     const [filter, setFilter] = useState<{ email: string; number: string }>({
         email: "",
         number: ""
     });
+
+    const changeFilters = (newFilter: { email: string; number: string }) => {
+        if (newFilter.email === "") {
+            setIsEmailNull(true);
+            return;
+        }
+
+        if (
+            filter.email === newFilter.email
+                && filter.number === newFilter.number
+        ) {
+            return;
+        }
+
+        setIsEmailNull(false);
+        setFilter({ ...newFilter });
+    }
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -48,7 +66,8 @@ export const UsersForm: FC<UsersFormProps> = (props) => {
     return (
         <>
             <SearchUsers
-                setFilter={setFilter}
+                setFilter={changeFilters}
+                isEmailNull={isEmailNull}
             />
             <ShowUsers
                 users={users}

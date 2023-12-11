@@ -2,6 +2,8 @@ import "./Form.css";
 
 import { Button } from "@/shared/ui/Button/Button";
 import { Input } from "@/shared/ui/Input/Input";
+import { classNames } from "@/shared/lib/classNames/classNames";
+
 import { FC, useState } from "react";
 
 interface IFilter {
@@ -12,11 +14,13 @@ interface IFilter {
 interface FormProps {
     className?: string;
     setFilter: (arg: IFilter) => void;
+    isEmailNull: boolean;
 }
 
 export const Form: FC<FormProps> = (props) => {
     const {
-        setFilter
+        setFilter,
+        isEmailNull
     } = props;
 
     const [ inputData, setInputData ] = useState<{ email: string; number: string }>({
@@ -31,22 +35,29 @@ export const Form: FC<FormProps> = (props) => {
             </h2>
             <div className="form__input">
                 <Input
+                    mask=""
                     type="email"
                     className="form__input-email"
                     onChange={(e) => setInputData({ ...inputData, email: e.target.value })}
                     placeholder="example@gmail.com"
                 />
-                <p className="form__input-message-email">
-                    Требуемый формат: example@gmail.com
-                </p>
                 <Input
+                    mask={"99-99-99"}
                     className="form__input-number"
                     placeholder="11-22-33"
                     onChange={(e) => setInputData({ ...inputData, number: e.target.value })}
-                    type="number"
+                    type="text"
                 />
-                <p className="form__input-message-number">
-                    Требуемый формат: 11-22-33
+                <p className={
+                    classNames(
+                        "form__input-message-email",
+                        {
+                            "form__input-message-email_visible": isEmailNull
+                        },
+                        []
+                    )
+                }>
+                    Поле email не должно быть пустым
                 </p>
             </div>
             <Button
