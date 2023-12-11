@@ -51,3 +51,30 @@
 - backend: nodejs (типизация обязательна)
 - библиотеки: на усмотрение
 - деплой не обязателен, подойдёт и Readme с инструкцией
+
+### Деплой
+
+- [Frontend](https://phoil-ly-frontend-react-app.onrender.com)
+- [Backend](https://phoil-ly-restful-api.onrender.com)
+
+### Инструкция по локальному запуску
+
+1. Склонировать репозиторий
+
+```git
+git clone https://github.com/Pro100CaHya/phoil.ly.git
+```
+
+2. Запустить RESTful API
+
+```cmd
+cd server
+npm run start
+```
+
+3. Через отдельный терминал запустить frontend
+
+```cmd
+cd client
+npm run dev
+```

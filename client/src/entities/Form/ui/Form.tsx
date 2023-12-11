@@ -3,30 +3,32 @@ import "./Form.css";
 import { Button } from "@/shared/ui/Button/Button";
 import { Input } from "@/shared/ui/Input/Input";
 import { classNames } from "@/shared/lib/classNames/classNames";
+import { getUnmaskedNumber } from "@/shared/lib/getUnmaskedNumber/getUnmaskedNumber";
 
-import { FC, useState } from "react";
-
-interface IFilter {
-    email: string,
-    number: string
-}
+import { FC, useContext, useState } from "react";
+import { FilterContext } from "@/app/providers/FilterProvider";
 
 interface FormProps {
     className?: string;
-    setFilter: (arg: IFilter) => void;
-    isEmailNull: boolean;
 }
 
 export const Form: FC<FormProps> = (props) => {
     const {
-        setFilter,
-        isEmailNull
-    } = props;
+        setFilter
+    } = useContext(FilterContext);
 
     const [ inputData, setInputData ] = useState<{ email: string; number: string }>({
         email: "",
         number: ""
     });
+
+    const handleSearch = () => {
+        if ( inputData.email.length === 0) {
+            return;
+        }
+
+        setFilter?.({ ...inputData });
+    }
 
     return (
         <div className="form">
@@ -45,14 +47,14 @@ export const Form: FC<FormProps> = (props) => {
                     mask={"99-99-99"}
                     className="form__input-number"
                     placeholder="11-22-33"
-                    onChange={(e) => setInputData({ ...inputData, number: e.target.value })}
+                    onChange={(e) => setInputData({ ...inputData, number: getUnmaskedNumber(e.target.value) })}
                     type="text"
                 />
                 <p className={
                     classNames(
                         "form__input-message-email",
                         {
-                            "form__input-message-email_visible": isEmailNull
+                            "form__input-message-email_visible": inputData.email.length === 0
                         },
                         []
                     )
@@ -62,7 +64,7 @@ export const Form: FC<FormProps> = (props) => {
             </div>
             <Button
                 className={"form__button"}
-                onClick={() => setFilter({ ...inputData })}
+                onClick={() => handleSearch()}
             >
                 Поиск
             </Button>

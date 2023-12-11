@@ -1,19 +1,20 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import { List } from "@/entities/List";
-import { User } from "@/shared/api/users";
 import { Loader } from "@/shared/ui/Loader/Loader";
+import { UsersContext } from "@/app/providers/UsersProvider";
+import { NotFound } from "@/shared/ui/NotFound/NotFound";
 
 interface ShowUsersProps {
-    users: Array<User>;
     isLoad: boolean;
 }
 
 export const ShowUsers: FC<ShowUsersProps> = (props) => {
     const {
-        users,
         isLoad
     } = props;
+
+    const { users } = useContext(UsersContext);
 
     console.log(isLoad);
 
@@ -24,9 +25,11 @@ export const ShowUsers: FC<ShowUsersProps> = (props) => {
                     ?
                         <Loader />
                     :
-                        <List
-                            users={users}
-                        />
+                        users?.length === 0
+                            ?
+                                <NotFound />
+                            :
+                                <List />
             }
         </div>
     );

@@ -1,23 +1,18 @@
 import { classNames } from "@/shared/lib/classNames/classNames";
 
 import "./List.css";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { User } from "@/shared/api/users";
+import { UsersContext } from "@/app/providers/UsersProvider";
 
-interface UsersListProps {
-    users: Array<User>
-}
-
-export const List: FC<UsersListProps> = (props) => {
-    const {
-        users
-    } = props;
+export const List: FC = () => {
+    const { users } = useContext(UsersContext);
 
     return (
         <>
             <ul className={classNames("list", {}, [])}>
                 {
-                    users.map((user: User) => (
+                    users?.map((user: User) => (
                         <li key={user.id} className="list__item">
                             <p className="list__item-email">
                                 email: {user.email}

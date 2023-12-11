@@ -1,39 +1,22 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import { SearchUsers } from "@/features/SearchUsers";
 import { ShowUsers } from "@/features/ShowUsers";
 import { User, getUsers } from "@/shared/api/users";
 import { useEffect, useState } from "react";
+import { FilterContext, Filter } from "@/app/providers/FilterProvider";
+import { UsersContext } from "@/app/providers/UsersProvider";
 
 interface UsersFormProps {
     className?: string;
 }
 
 export const UsersForm: FC<UsersFormProps> = (props) => {
-    const [users, setUsers] = useState<User[]>([]);
-    const [isEmailNull, setIsEmailNull] = useState<boolean>(false);
+    const { setUsers } = useContext(UsersContext);
     const [isLoad, setIsLoad] = useState<boolean>(true);
-    const [filter, setFilter] = useState<{ email: string; number: string }>({
-        email: "",
-        number: ""
-    });
-
-    const changeFilters = (newFilter: { email: string; number: string }) => {
-        if (newFilter.email === "") {
-            setIsEmailNull(true);
-            return;
-        }
-
-        if (
-            filter.email === newFilter.email
-                && filter.number === newFilter.number
-        ) {
-            return;
-        }
-
-        setIsEmailNull(false);
-        setFilter({ ...newFilter });
-    }
+    const {
+        filter
+    } = useContext(FilterContext);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -42,11 +25,11 @@ export const UsersForm: FC<UsersFormProps> = (props) => {
             try {
                 setIsLoad(true);
                 const response = await getUsers(
-                    { ...filter },
+                    { ...filter as Filter },
                     abortController.signal
                 );
                 
-                setUsers(response);
+                setUsers?.(response as User[]);
                 setIsLoad(false);
             } catch (error) {
                 if (!abortController.signal.aborted) {
@@ -65,12 +48,8 @@ export const UsersForm: FC<UsersFormProps> = (props) => {
 
     return (
         <>
-            <SearchUsers
-                setFilter={changeFilters}
-                isEmailNull={isEmailNull}
-            />
+            <SearchUsers />
             <ShowUsers
-                users={users}
                 isLoad={isLoad}
             />
         </>
