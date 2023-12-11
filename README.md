@@ -65,14 +65,20 @@
 git clone https://github.com/Pro100CaHya/phoil.ly.git
 ```
 
-2. Запустить RESTful API
+2. Заменить baseURL в [файле](https://github.com/Pro100CaHya/phoil.ly/blob/main/client/src/shared/api/base.ts#L8) на следующее значение
+
+```javascript
+http://localhost:8000/api
+```
+
+3. Запустить RESTful API
 
 ```cmd
 cd server
 npm run start
 ```
 
-3. Через отдельный терминал запустить frontend
+4. Через отдельный терминал запустить frontend
 
 ```cmd
 cd client
